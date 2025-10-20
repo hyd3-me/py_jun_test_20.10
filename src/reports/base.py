@@ -10,7 +10,7 @@ class BaseReport(ABC):
     """
 
     @abstractmethod
-    def generate(self,  data: List[Dict]) -> str:
+    def generate(self, data: List[Dict]) -> str:
         """
         Generate report as a string from input data.
         """

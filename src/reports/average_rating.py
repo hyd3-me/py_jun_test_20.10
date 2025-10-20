@@ -15,8 +15,8 @@ class AverageRatingReport(BaseReport):
         ratings_by_brand = defaultdict(list)
 
         for row in data:
-            brand = row['brand']
-            rating = float(row['rating'])
+            brand = row["brand"]
+            rating = float(row["rating"])
             ratings_by_brand[brand].append(rating)
 
         avg_ratings = {

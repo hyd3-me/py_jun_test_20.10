@@ -8,6 +8,7 @@ def test_average_rating_report_can_be_instantiated():
     report = AverageRatingReport()
     assert report is not None
 
+
 def test_average_rating_report_single_brand():
     """
     Test that average rating is calculated correctly for a single brand with multiple products.
@@ -24,6 +25,7 @@ def test_average_rating_report_single_brand():
 
     assert "apple" in result
     assert "4.70" in result  # (4.9 + 4.5) / 2 = 4.70
+
 
 def test_average_rating_report_multiple_brands():
     """
@@ -46,13 +48,18 @@ def test_average_rating_report_multiple_brands():
     assert "xiaomi" in result
 
     # Check sorting: apple (4.9) > samsung (4.8) > xiaomi (4.6)
-    lines = result.strip().split('\n')
-    brand_lines = [line for line in lines if 'apple' in line or 'samsung' in line or 'xiaomi' in line]
+    lines = result.strip().split("\n")
+    brand_lines = [
+        line
+        for line in lines
+        if "apple" in line or "samsung" in line or "xiaomi" in line
+    ]
 
     # The order should be: apple, samsung, xiaomi
-    assert brand_lines[0].count('apple') == 1
-    assert brand_lines[1].count('samsung') == 1
-    assert brand_lines[2].count('xiaomi') == 1
+    assert brand_lines[0].count("apple") == 1
+    assert brand_lines[1].count("samsung") == 1
+    assert brand_lines[2].count("xiaomi") == 1
+
 
 def test_average_rating_report_empty_data():
     """
@@ -66,8 +73,9 @@ def test_average_rating_report_empty_data():
     assert "Brand" in result
     assert "Average Rating" in result
     # Should only contain header and separators, no data rows
-    lines = result.strip().split('\n')
-    assert len([line for line in lines if '|' in line]) == 1  # Header only
+    lines = result.strip().split("\n")
+    assert len([line for line in lines if "|" in line]) == 1  # Header only
+
 
 def test_average_rating_report_single_product_per_brand():
     """
@@ -88,6 +96,7 @@ def test_average_rating_report_single_product_per_brand():
     # Each brand has only one product, so average = rating
     assert "4.90" in result  # apple
     assert "4.80" in result  # samsung
+
 
 def test_average_rating_report_rounding():
     """
