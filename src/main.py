@@ -1,7 +1,11 @@
 # src/main.py
 
 import sys
+import logging
 from pathlib import Path
+
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s", force=True)
+logger = logging.getLogger(__name__)
 
 sys.path.append(str(Path(__file__).resolve().parent))
 
@@ -24,7 +28,7 @@ def main():
     # Get and generate report
     report = manager.get_report(args.report)
     if report is None:
-        print(f"Unknown report: {args.report}")
+        logger.error(f"Unknown report: {args.report}")
         return
 
     result = report.generate(data)

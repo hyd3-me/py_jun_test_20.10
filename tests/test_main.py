@@ -56,4 +56,4 @@ def test_main_unknown_report(monkeypatch, tmp_path, capsys):
     captured = capsys.readouterr()
 
     # Check that error message is printed
-    assert "Unknown report: unknown-report" in captured.out
+    assert "Unknown report: unknown-report" in captured.err
