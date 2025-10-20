@@ -45,3 +45,20 @@ def test_parse_args_missing_report(monkeypatch):
 
     with pytest.raises(SystemExit):
         parse_args()
+
+
+def test_parse_args_file_not_found(monkeypatch, tmp_path):
+    """
+    Test that an error occurs when one of the files does not exist.
+    """
+    nonexistent_file = tmp_path / "nonexistent.csv"
+
+    monkeypatch.setattr(
+        "sys.argv",
+        ["main.py", "--files", str(nonexistent_file), "--report", "average-rating"],
+    )
+
+    from src.cli import parse_args
+
+    with pytest.raises(SystemExit):
+        parse_args()
