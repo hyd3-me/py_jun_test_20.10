@@ -19,3 +19,18 @@ def test_read_csv_files_success(tmp_path):
     assert result[0]["brand"] == "apple"
     assert result[1]["name"] == "Galaxy S23"
     assert result[1]["brand"] == "samsung"
+
+
+def test_read_csv_files_empty_file(tmp_path):
+    """
+    Test that reading an empty CSV file (with headers only) returns an empty list.
+    """
+    from src.parsers.csv_parser import read_csv_files
+
+    # Create an empty CSV file with headers
+    empty_file = tmp_path / "empty.csv"
+    empty_file.write_text("name,brand,price,rating\n")  # Only headers
+
+    result = read_csv_files([empty_file])
+
+    assert result == []
