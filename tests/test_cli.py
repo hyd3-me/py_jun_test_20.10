@@ -62,3 +62,30 @@ def test_parse_args_file_not_found(monkeypatch, tmp_path):
 
     with pytest.raises(SystemExit):
         parse_args()
+
+
+def test_parse_args_multiple_files(monkeypatch, tmp_path):
+    """
+    Test that multiple --files arguments are parsed correctly.
+    """
+    # Create temporary CSV files for testing
+    file1 = tmp_path / "products1.csv"
+    file1.write_text("name,brand,price,rating\n")
+
+    file2 = tmp_path / "products2.csv"
+    file2.write_text("name,brand,price,rating\n")
+
+    # Mock sys.argv to simulate command line input with multiple files
+    monkeypatch.setattr(
+        "sys.argv",
+        ["main.py", "--files", str(file1), str(file2), "--report", "average-rating"],
+    )
+
+    # Import here to avoid side effects during test collection
+    from src.cli import parse_args
+
+    args = parse_args()
+    assert len(args.files) == 2
+    assert str(args.files[0]) == str(file1)
+    assert str(args.files[1]) == str(file2)
+    assert args.report == "average-rating"
