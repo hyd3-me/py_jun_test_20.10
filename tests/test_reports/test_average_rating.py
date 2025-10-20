@@ -53,3 +53,18 @@ def test_average_rating_report_multiple_brands():
     assert brand_lines[0].count('apple') == 1
     assert brand_lines[1].count('samsung') == 1
     assert brand_lines[2].count('xiaomi') == 1
+
+def test_average_rating_report_empty_data():
+    """
+    Test that an empty data list returns an empty table.
+    """
+    from src.reports.average_rating import AverageRatingReport
+
+    report = AverageRatingReport()
+    result = report.generate([])
+
+    assert "Brand" in result
+    assert "Average Rating" in result
+    # Should only contain header and separators, no data rows
+    lines = result.strip().split('\n')
+    assert len([line for line in lines if '|' in line]) == 1  # Header only
