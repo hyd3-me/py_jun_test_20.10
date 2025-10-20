@@ -1,7 +1,7 @@
 # src/reports/manager.py
 
 from typing import Dict
-from src.reports.base import BaseReport
+from .base import BaseReport
 
 
 class ReportManager:

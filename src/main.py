@@ -13,6 +13,7 @@ from cli import parse_args
 from parsers.csv_parser import read_csv_files
 from reports.manager import ReportManager
 from reports.average_rating import AverageRatingReport
+from reports.average_price import AveragePriceReport
 
 
 def main():
@@ -24,6 +25,7 @@ def main():
     # Setup report manager
     manager = ReportManager()
     manager.register_report("average-rating", AverageRatingReport())
+    manager.register_report("average-price", AveragePriceReport())
 
     # Get and generate report
     report = manager.get_report(args.report)

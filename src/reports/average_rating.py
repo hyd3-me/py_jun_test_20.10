@@ -3,7 +3,7 @@
 from typing import List, Dict
 from collections import defaultdict
 from tabulate import tabulate
-from src.reports.base import BaseReport
+from .base import BaseReport
 
 
 class AverageRatingReport(BaseReport):
