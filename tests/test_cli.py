@@ -1,5 +1,6 @@
 import pytest
 
+
 def test_parse_args_success(monkeypatch, tmp_path):
     """
     Test that valid --files and --report arguments are parsed correctly.
@@ -27,6 +28,18 @@ def test_parse_args_missing_files(monkeypatch):
     Test that an error occurs when --files argument is missing.
     """
     monkeypatch.setattr("sys.argv", ["main.py", "--report", "average-rating"])
+
+    from src.cli import parse_args
+
+    with pytest.raises(SystemExit):
+        parse_args()
+
+
+def test_parse_args_missing_report(monkeypatch):
+    """
+    Test that an error occurs when --report argument is missing.
+    """
+    monkeypatch.setattr("sys.argv", ["main.py", "--files", "products1.csv"])
 
     from src.cli import parse_args
 
