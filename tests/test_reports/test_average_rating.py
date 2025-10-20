@@ -68,3 +68,43 @@ def test_average_rating_report_empty_data():
     # Should only contain header and separators, no data rows
     lines = result.strip().split('\n')
     assert len([line for line in lines if '|' in line]) == 1  # Header only
+
+def test_average_rating_report_single_product_per_brand():
+    """
+    Test that average rating is correct when each brand has only one product.
+    """
+    from src.reports.average_rating import AverageRatingReport
+
+    data = [
+        {"name": "iPhone 15", "brand": "apple", "price": "999", "rating": "4.9"},
+        {"name": "Galaxy S23", "brand": "samsung", "price": "1199", "rating": "4.8"},
+    ]
+
+    report = AverageRatingReport()
+    result = report.generate(data)
+
+    assert "apple" in result
+    assert "samsung" in result
+    # Each brand has only one product, so average = rating
+    assert "4.90" in result  # apple
+    assert "4.80" in result  # samsung
+
+def test_average_rating_report_rounding():
+    """
+    Test that average ratings are rounded to 2 decimal places.
+    Example: (4.9 + 4.8 + 4.7) / 3 = 4.800... -> should appear as 4.80.
+    """
+    from src.reports.average_rating import AverageRatingReport
+
+    data = [
+        {"name": "iPhone 15", "brand": "apple", "price": "999", "rating": "4.9"},
+        {"name": "iPhone 12", "brand": "apple", "price": "599", "rating": "4.8"},
+        {"name": "iPhone 11", "brand": "apple", "price": "499", "rating": "4.7"},
+    ]
+
+    report = AverageRatingReport()
+    result = report.generate(data)
+
+    assert "apple" in result
+    # Average: (4.9 + 4.8 + 4.7) / 3 = 4.8
+    assert "4.80" in result  # Check rounding to 2 decimal places
