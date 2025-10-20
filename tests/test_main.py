@@ -32,3 +32,28 @@ def test_main_integration(monkeypatch, tmp_path, capsys):
     assert "apple" in output
     assert "samsung" in output
     assert "4.70" in output  # Average for apple: (4.9 + 4.5) / 2 = 4.70
+
+
+def test_main_unknown_report(monkeypatch, tmp_path, capsys):
+    """
+    Test that main.py prints an error when an unknown report is requested.
+    """
+    from src.main import main
+
+    # Create a temporary CSV file
+    file1 = tmp_path / "products.csv"
+    file1.write_text("name,brand,price,rating\n" "iPhone 15,apple,999,4.9\n")
+
+    # Mock command line arguments with unknown report
+    monkeypatch.setattr(
+        "sys.argv", ["main.py", "--files", str(file1), "--report", "unknown-report"]
+    )
+
+    # Run main
+    main()
+
+    # Capture output
+    captured = capsys.readouterr()
+
+    # Check that error message is printed
+    assert "Unknown report: unknown-report" in captured.out
